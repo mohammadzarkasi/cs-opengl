@@ -9,6 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.9.4" />
+      <None Update="Shader\shader.vert">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Shader\shader.frag">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
   </ItemGroup>
 
 </Project>
