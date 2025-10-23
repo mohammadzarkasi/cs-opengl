@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
-namespace cs_gl;
-
-public class Shader
+namespace cs_gl.Src
 {
-    public int Handle;
+    public class Shader
+    {
+        public int Handle;
 
         private readonly Dictionary<string, int> _uniformLocations;
         private string _vertPath, _fragPath;
@@ -194,4 +194,5 @@ public class Shader
             GL.UseProgram(Handle);
             GL.Uniform3(_uniformLocations[name], data);
         }
+    }
 }
