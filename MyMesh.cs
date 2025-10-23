@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 
 namespace cs_gl;
 
@@ -62,12 +63,15 @@ public class MyMesh
         VertexCount = vertices.Length;*/
     }
 
-    public void Draw(int colorLocation)
+    public void Draw(int colorSwitchLoc, int solidColorLoc)
     {
         /*if (hasColor == false)
         {
             GL.Uniform4(colorLocation, 1, 0, 0, 1);
         }*/
+        GL.Uniform1(colorSwitchLoc, 0);
+        GL.Uniform4(solidColorLoc, new Vector4(1f,1f,0f,1f));
+        
         GL.BindVertexArray(VaoHandle);
         GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
     }

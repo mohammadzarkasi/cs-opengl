@@ -80,11 +80,15 @@ public class Main
         int projLocation = GL.GetUniformLocation(_shader.Handle, "projection_matrix");
         GL.UniformMatrix4(projLocation, false, ref _projectionMatrix);
 
-        int colorLocation = GL.GetUniformLocation(_shader.Handle, "uColor");
+        // int colorLocation = GL.GetUniformLocation(_shader.Handle, "uColor");
+        
+        // Dapatkan lokasi Uniforms (sebaiknya dilakukan sekali saat inisialisasi)
+        int solidColorLoc = GL.GetUniformLocation(_shader.Handle, "uSolidColor");
+        int colorSwitchLoc = GL.GetUniformLocation(_shader.Handle, "useUniformColor");
         
         foreach (var mesh in _meshes)
         {
-            mesh.Draw(colorLocation);
+            mesh.Draw(colorSwitchLoc, solidColorLoc);
         }
 
         /*GL.Begin(PrimitiveType.Triangles);
