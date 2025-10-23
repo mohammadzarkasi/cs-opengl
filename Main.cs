@@ -79,10 +79,12 @@ public class Main
         _shader.Use();
         int projLocation = GL.GetUniformLocation(_shader.Handle, "projection_matrix");
         GL.UniformMatrix4(projLocation, false, ref _projectionMatrix);
+
+        int colorLocation = GL.GetUniformLocation(_shader.Handle, "uColor");
         
         foreach (var mesh in _meshes)
         {
-            mesh.Draw();
+            mesh.Draw(colorLocation);
         }
 
         /*GL.Begin(PrimitiveType.Triangles);
@@ -112,9 +114,9 @@ public class Main
         //GL.BufferData(BufferTarget.ArrayBuffer, );
         
         _meshes.Add(new MyMesh([
-            1f,1f,0f,
-            49f,1f,0f,
-            49f,49f,0f
+            1f,1f,0f,       1.0f, 0.0f, 0.0f,
+            49f,1f,0f,      0.0f, 1.0f, 0.0f,
+            49f,49f,0f,     0.0f, 0.0f, 1.0f
         ]));
         
         _shader.Init();
