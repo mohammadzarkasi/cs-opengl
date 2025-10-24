@@ -14,9 +14,11 @@ public class Main2
 
     private Matrix4 _projectionMatrix;
     private Matrix4 _viewMatrix;
-    private Vector3 _cameraPosition = new Vector3(0f, 0f, 50f);
-    private Vector3 _lookAt = new Vector3(0f, 0f, 0f);
-    private Vector3 _upVector = new Vector3(0f, 1f, 0f);
+    private readonly Vector3 _cameraPosition = new Vector3(0f, 0f, 100f);
+    private readonly Vector3 _lookAt = new Vector3(0f, 0f, 0f);
+    private readonly Vector3 _upVector = new Vector3(0f, 1f, 0f);
+
+    private Camera _camera;
 
     public Main2()
     {
@@ -87,14 +89,16 @@ public class Main2
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
         _shader.Use();
-        int projLocation = GL.GetUniformLocation(_shader.Handle, "projection_matrix");
-        GL.UniformMatrix4(projLocation, false, ref _projectionMatrix);
-
-        int viewLocation = GL.GetUniformLocation(_shader.Handle, "view_matrix");
-        GL.UniformMatrix4(viewLocation, false, ref _viewMatrix);
+        
+        // int projLocation = GL.GetUniformLocation(_shader.Handle, "projection_matrix");
+        // GL.UniformMatrix4(projLocation, false, ref _projectionMatrix);
+        _shader.SetMatrix4("projection_matrix", _camera.GetProjectionMatrix());
+        
+        // int viewLocation = GL.GetUniformLocation(_shader.Handle, "view_matrix");
+        // GL.UniformMatrix4(viewLocation, false, ref _viewMatrix);
+        _shader.SetMatrix4("view_matrix", _camera.GetViewMatrix());
 
         int transformLoc = GL.GetUniformLocation(_shader.Handle, "transform_matrix");
-
 
         // Dapatkan lokasi Uniforms (sebaiknya dilakukan sekali saat inisialisasi)
         int solidColorLoc = GL.GetUniformLocation(_shader.Handle, "uSolidColor");
@@ -103,8 +107,6 @@ public class Main2
 
         foreach (var mesh in _meshes)
         {
-            // var tranformMatrix = mesh.GetTransformMatrix();
-            // GL.UniformMatrix4(transformLoc, false, ref tranformMatrix);
             mesh.Draw(colorSwitchLoc, solidColorLoc, transformLoc);
         }
 
@@ -127,7 +129,8 @@ public class Main2
         //     15f, 15f, 0f,     0.0f, 0.0f, 1.0f,
         // ]));
         // _meshes.Add(new MySquare(0,0,0, 20,10,0).Build());
-        _meshes.Add(new MyCube2(0, 0, 0, 20, 10, 20).Build());
+        _meshes.Add(new MyCube2(0, 0, 0, 40, 30, 25).Build());
+        _meshes.Add(new MyCube2(50, 20, 5, 40, 30, 25).Build());
         // _meshes.Add(new MyCube([
         //     1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
         //     1f, 15f, 0f,      0.0f, 1.0f, 0.0f,
@@ -147,7 +150,11 @@ public class Main2
         _shader.Init();
         _shader.Use();
         
-        Console.WriteLine("matrix identity: " + Matrix4.Identity*Matrix4.Identity);
+            // We initialize the camera so that it is 3 units back from where the rectangle is.
+        // We also give it the proper aspect ratio.
+        _camera = new Camera(Vector3.UnitZ * 100, _game.Size.X / (float)_game.Size.Y);
+        
+        // Console.WriteLine("matrix identity: " + Matrix4.Identity*Matrix4.CreateRotationY(MathHelper.DegreesToRadians(23)));
     }
 
     public void Mulai()

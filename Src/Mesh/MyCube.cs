@@ -77,7 +77,7 @@ public class MyCube:MyMesh
         }
     }
 
-    public override Matrix4 GetTransformMatrix()
+    public override Matrix4 GetDynamicTransformMatrix()
     {
         var transform = Matrix4.Identity;
         transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(rotationAngle));

@@ -46,7 +46,7 @@ void main(void)
     // gl_Position = vec4(aPosition, 1.0);
     // gl_Position = projection_matrix * vec4(aPosition, 1.0);
 
-    gl_Position = projection_matrix * view_matrix * transform_matrix * vec4(aPosition, 1.0);
+    gl_Position = transform_matrix * view_matrix  * projection_matrix * vec4(aPosition, 1.0);
 
-    vColor = aColor; // Meneruskan warna vertex ke Fragment Shader
+    vColor = aColor;// Meneruskan warna vertex ke Fragment Shader
 }

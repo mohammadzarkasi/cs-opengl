@@ -1,42 +1,74 @@
-﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 
 namespace cs_gl.Src.Mesh;
 
-public class MySquare : MyMesh
+public class MyTriangle:MyMesh
 {
-    private List<float> _vertices;
-    // private float rotationAngle=0;
-    public MySquare(int  x, int y, int z, int xLength, int yLength, int zLength) : base([],false)
+
+    public static float[] TriangleToVertices(List<MyTriangle>  triangles)
     {
-        Enable = true;
-        _vertices =
-        [
-            // 0, 10, 0, 12, 0, 12
-            x, y, z,
-            x + xLength, y, z,
-            x + xLength, y+yLength, z+zLength,
-            
-            x + xLength, y+yLength, z+zLength,
-            x, y+yLength, z+zLength,
-            x, y, z,
+        List<float> result = [];
+        foreach (var t in triangles)
+        {
+            var v = t.getVertices();
+            foreach (var v1 in v)
+            {
+                result.Add(v1);
+            }
+        }
+        return result.ToArray();
+    }
+
+    private List<float> _vertices;
+    
+    // ReSharper disable once ConvertToPrimaryConstructor
+    public MyTriangle(Vector3 a, Vector3 b, Vector3 c) : base([], false)
+    {
+        _vertices = [
+            a.X, a.Y, a.Z,
+            b.X, b.Y, b.Z, 
+            c.X, c.Y, c.Z
         ];
-        Console.WriteLine("square: " + Helper.PrintListFloat(_vertices,3));
+        Console.WriteLine("triangle: " + Helper.PrintListFloat(_vertices,3));
+    }
+
+    public override void Draw(int colorSwitchLoc, int solidColorLoc, int transformLoc)
+    {
+        GL.Uniform1(colorSwitchLoc, 1);
+        GL.Uniform4(solidColorLoc, solidColor);
+        GL.BindVertexArray(VaoHandle);
+
+        // var transformMatrix = GetTransformMatrix();
+        // var transformMatrix = initialTransform * GetDynamicTransformMatrix();
+        var transformMatrix =  GetDynamicTransformMatrix();
+     
+        GL.UniformMatrix4(transformLoc, false, ref transformMatrix);
+        
+        GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
+    }
+
+    public float[] getVertices()
+    {
+        return _vertices.ToArray();
     }
 
     public override MyMesh Build()
     {
+        Console.WriteLine("mytriangle build");
         int sizeOfFloat = sizeof(float);
         int stride = 3 * sizeOfFloat; // 24 byte total per vertex
 
-        var vertices = _vertices.ToArray();
+        float[] vertices = _vertices.ToArray();
 
         VboHandle = GL.GenBuffer();
+        Console.WriteLine("vbo handle: " + VboHandle);
         GL.BindBuffer(BufferTarget.ArrayBuffer, VboHandle);
         GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices,
             BufferUsageHint.StaticDraw);
 
         VaoHandle = GL.GenVertexArray();
+        Console.WriteLine("vao handle: " + VaoHandle);
         GL.BindVertexArray(VaoHandle);
 
         // --- KONFIGURASI ATTRIBUTE 0: POSISI ---
@@ -69,33 +101,14 @@ public class MySquare : MyMesh
         VertexCount = vertices.Length / 3;
         return this;
     }
-
-    public override void Draw(int colorSwitchLoc, int solidColorLoc, int transformLoc)
-    {
-        GL.Uniform1(colorSwitchLoc, 1);
-        GL.Uniform4(solidColorLoc, new Vector4(1f,1f,0f,1f));
-        
-        GL.BindVertexArray(VaoHandle);
-
-        var transformMatrix = GetDynamicTransformMatrix();
-        GL.UniformMatrix4(transformLoc, false, ref transformMatrix);
-        
-        GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
-    }
-
-    // public override void Forward()
-    // {
-    //     rotationAngle += 1;
-    //     if (rotationAngle >= 360)
-    //     {
-    //         rotationAngle = 0;
-    //     }
-    // }
-
+    
     public override Matrix4 GetDynamicTransformMatrix()
     {
-        var transform = Matrix4.Identity;
+        // var transform = Matrix4.Identity;
+        var transform = initialTransform;
         transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
+        transform = transform * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(RotationAngle));
+        // transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
         return transform;
     }
 }

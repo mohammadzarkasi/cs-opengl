@@ -15,6 +15,7 @@ namespace cs_gl.Src
         protected float RotationAngle = 0;
         // ReSharper disable once InconsistentNaming
         protected Matrix4 initialTransform = Matrix4.Identity;
+        protected Vector4 solidColor = new Vector4(1.0f, 1.0f, 0f, 1.0f);
 
         public MyMesh(float[] vertices, bool enable)
         {
@@ -73,10 +74,10 @@ namespace cs_gl.Src
             }
         }
 
-        public virtual MyMesh InitialTransform(Matrix4 transform)
+        public virtual void SetInitialTransform(Matrix4 transform)
         {
             initialTransform = transform;
-            return this;
+            
         }
 
         public abstract void Draw(int colorSwitchLoc, int solidColorLoc, int transformLoc);
@@ -107,7 +108,7 @@ namespace cs_gl.Src
         // public abstract void Forward();
 
         //public abstract Matrix4 GetTransformMatrix();
-        public virtual Matrix4 GetTransformMatrix()
+        public virtual Matrix4 GetDynamicTransformMatrix()
         {
             return Matrix4.Identity;
         }
@@ -118,6 +119,10 @@ namespace cs_gl.Src
         // {
         //     return this;
         // }
+        public virtual void SetSolidColor(Vector4 color)
+        {
+            solidColor = color;
+        }
     }
     
     
