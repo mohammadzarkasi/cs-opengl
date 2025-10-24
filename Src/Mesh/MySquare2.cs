@@ -32,6 +32,7 @@ public class MySquare2 : MyMesh
 
         // var transformMatrix = GetTransformMatrix();
         var transformMatrix = initialTransform * GetTransformMatrix();
+        // var transformMatrix = Matrix4.Identity;
         GL.UniformMatrix4(transformLoc, false, ref transformMatrix);
         
         GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
@@ -43,7 +44,7 @@ public class MySquare2 : MyMesh
         int sizeOfFloat = sizeof(float);
         int stride = 3 * sizeOfFloat; // 24 byte total per vertex
 
-        var vertices = _vertices.ToArray();
+        float[] vertices = _vertices.ToArray();
 
         VboHandle = GL.GenBuffer();
         GL.BindBuffer(BufferTarget.ArrayBuffer, VboHandle);
@@ -84,12 +85,12 @@ public class MySquare2 : MyMesh
         return this;
     }
     
-    // public override Matrix4 GetTransformMatrix()
-    // {
-    //     var transform = Matrix4.Identity;
-    //     transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
-    //     transform = transform * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(RotationAngle));
-    //     transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
-    //     return transform;
-    // }
+    public override Matrix4 GetTransformMatrix()
+    {
+        var transform = Matrix4.Identity;
+        transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
+        transform = transform * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(RotationAngle));
+        transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
+        return transform;
+    }
 }

@@ -47,6 +47,7 @@ public class Main2
         {
             mesh.Forward();
         }
+        
     }
 
     private void Unload()
@@ -145,6 +146,8 @@ public class Main2
 
         _shader.Init();
         _shader.Use();
+        
+        Console.WriteLine("matrix identity: " + Matrix4.Identity*Matrix4.Identity);
     }
 
     public void Mulai()

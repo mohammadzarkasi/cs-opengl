@@ -14,7 +14,7 @@ namespace cs_gl.Src
         protected bool Enable;
         protected float RotationAngle = 0;
         // ReSharper disable once InconsistentNaming
-        protected Matrix4 initialTransform;
+        protected Matrix4 initialTransform = Matrix4.Identity;
 
         public MyMesh(float[] vertices, bool enable)
         {
