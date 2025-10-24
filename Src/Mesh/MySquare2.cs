@@ -3,29 +3,43 @@ using OpenTK.Mathematics;
 
 namespace cs_gl.Src.Mesh;
 
-public class MySquare : MyMesh
+public class MySquare2 : MyMesh
 {
     private List<float> _vertices;
-    // private float rotationAngle=0;
-    public MySquare(int  x, int y, int z, int xLength, int yLength, int zLength) : base([],false)
+    
+    // ReSharper disable once ConvertToPrimaryConstructor
+    public MySquare2(int x, int y, int w, int h) : base([], false)
     {
-        Enable = true;
-        _vertices =
-        [
-            // 0, 10, 0, 12, 0, 12
-            x, y, z,
-            x + xLength, y, z,
-            x + xLength, y+yLength, z+zLength,
+        _vertices = [
+            x, y, 0,
+            x+w, y, 0,
+            x+w, y+h, 0,
             
-            x + xLength, y+yLength, z+zLength,
-            x, y+yLength, z+zLength,
-            x, y, z,
+            x+w, y+h, 0,
+            x, y+h, 0,
+            x, y, 0,
         ];
         Console.WriteLine("square: " + Helper.PrintListFloat(_vertices,3));
     }
 
+    public override void Draw(int colorSwitchLoc, int solidColorLoc, int transformLoc)
+    {
+        // Console.WriteLine("mysquare2 draw");
+        GL.Uniform1(colorSwitchLoc, 1);
+        GL.Uniform4(solidColorLoc, new Vector4(1f,1f,0f,1f));
+        
+        GL.BindVertexArray(VaoHandle);
+
+        // var transformMatrix = GetTransformMatrix();
+        var transformMatrix = initialTransform * GetTransformMatrix();
+        GL.UniformMatrix4(transformLoc, false, ref transformMatrix);
+        
+        GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
+    }
+
     public override MyMesh Build()
     {
+        Console.WriteLine("mysquare2 build");
         int sizeOfFloat = sizeof(float);
         int stride = 3 * sizeOfFloat; // 24 byte total per vertex
 
@@ -69,33 +83,13 @@ public class MySquare : MyMesh
         VertexCount = vertices.Length / 3;
         return this;
     }
-
-    public override void Draw(int colorSwitchLoc, int solidColorLoc, int transformLoc)
-    {
-        GL.Uniform1(colorSwitchLoc, 1);
-        GL.Uniform4(solidColorLoc, new Vector4(1f,1f,0f,1f));
-        
-        GL.BindVertexArray(VaoHandle);
-
-        var transformMatrix = GetTransformMatrix();
-        GL.UniformMatrix4(transformLoc, false, ref transformMatrix);
-        
-        GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
-    }
-
-    // public override void Forward()
+    
+    // public override Matrix4 GetTransformMatrix()
     // {
-    //     rotationAngle += 1;
-    //     if (rotationAngle >= 360)
-    //     {
-    //         rotationAngle = 0;
-    //     }
+    //     var transform = Matrix4.Identity;
+    //     transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
+    //     transform = transform * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(RotationAngle));
+    //     transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
+    //     return transform;
     // }
-
-    public override Matrix4 GetTransformMatrix()
-    {
-        var transform = Matrix4.Identity;
-        transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
-        return transform;
-    }
 }

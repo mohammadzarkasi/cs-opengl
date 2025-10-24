@@ -83,4 +83,9 @@ public class MyCube:MyMesh
         transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(rotationAngle));
         return transform;
     }
+
+    public override MyMesh Build()
+    {
+        throw new NotImplementedException();
+    }
 }

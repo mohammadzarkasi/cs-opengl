@@ -118,11 +118,11 @@ namespace cs_gl.Src
             //GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
             //GL.BufferData(BufferTarget.ArrayBuffer, );
         
-            _meshes.Add(new MyMesh([
-                1f,1f,0f,       1.0f, 0.0f, 0.0f,
-                49f,1f,0f,      0.0f, 1.0f, 0.0f,
-                49f,49f,0f,     0.0f, 0.0f, 1.0f
-            ],true));
+            // _meshes.Add(new MyMesh([
+            //     1f,1f,0f,       1.0f, 0.0f, 0.0f,
+            //     49f,1f,0f,      0.0f, 1.0f, 0.0f,
+            //     49f,49f,0f,     0.0f, 0.0f, 1.0f
+            // ],true));
         
             _shader.Init();
             _shader.Use();

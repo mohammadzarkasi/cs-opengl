@@ -25,7 +25,7 @@ public class Main2
 
         _game = new GameWindow(new GameWindowSettings()
             {
-                UpdateFrequency = 10
+                UpdateFrequency = 30
             },
             new NativeWindowSettings()
             {
@@ -49,7 +49,7 @@ public class Main2
         }
     }
 
-private void Unload()
+    private void Unload()
     {
         Console.WriteLine("unload...");
         GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
@@ -73,8 +73,9 @@ private void Unload()
         GL.Viewport(0, 0, _game.Size.X, _game.Size.Y);
 
         // _projectionMatrix = Matrix4.CreateOrthographicOffCenter(-100, 100, -100, 100, -1, 1);
-        
-        _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45f), (float)_game.Size.X/_game.Size.Y, 0.1f, 100f);
+
+        _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45f),
+            (float)_game.Size.X / _game.Size.Y, 0.1f, 100f);
         _viewMatrix = Matrix4.LookAt(_cameraPosition, _lookAt, _upVector);
     }
 
@@ -114,7 +115,7 @@ private void Unload()
         Console.WriteLine("game window loaded");
         GL.ClearColor(0.5f, 0.5f, 0.5f, 1f);
         GL.Enable(EnableCap.DepthTest);
-        
+
         // _meshes.Add(new MyCube([
         //     1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
         //     15f, 1f, 0f,      0.0f, 1.0f, 0.0f,
@@ -124,7 +125,8 @@ private void Unload()
         //     1f, 15f, 0f,      0.0f, 1.0f, 0.0f,
         //     15f, 15f, 0f,     0.0f, 0.0f, 1.0f,
         // ]));
-        _meshes.Add(new MySquare(-10,0,0, 20,10,0).Build());
+        // _meshes.Add(new MySquare(0,0,0, 20,10,0).Build());
+        _meshes.Add(new MyCube2(0, 0, 0, 20, 10, 20).Build());
         // _meshes.Add(new MyCube([
         //     1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
         //     1f, 15f, 0f,      0.0f, 1.0f, 0.0f,

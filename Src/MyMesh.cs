@@ -4,7 +4,7 @@ using OpenTK.Mathematics;
 // ReSharper disable once CheckNamespace
 namespace cs_gl.Src
 {
-    public class MyMesh
+    public abstract class MyMesh
     {
         public int VaoHandle { get;  set; }
         public int VboHandle { get; set; }
@@ -12,6 +12,9 @@ namespace cs_gl.Src
 
         protected bool hasColor = false;
         protected bool Enable;
+        protected float RotationAngle = 0;
+        // ReSharper disable once InconsistentNaming
+        protected Matrix4 initialTransform;
 
         public MyMesh(float[] vertices, bool enable)
         {
@@ -70,34 +73,51 @@ namespace cs_gl.Src
             }
         }
 
-        public virtual void Draw(int colorSwitchLoc, int solidColorLoc, int tranformLoc)
+        public virtual MyMesh InitialTransform(Matrix4 transform)
         {
-            if (Enable == false)
-            {
-                return;
-            }
-            /*if (hasColor == false)
-            {
-                GL.Uniform4(colorLocation, 1, 0, 0, 1);
-            }*/
-            GL.Uniform1(colorSwitchLoc, 0);
-            GL.Uniform4(solidColorLoc, new Vector4(1f,1f,0f,1f));
-        
-            GL.BindVertexArray(VaoHandle);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
+            initialTransform = transform;
+            return this;
         }
+
+        public abstract void Draw(int colorSwitchLoc, int solidColorLoc, int transformLoc);
+        // public virtual void Draw(int colorSwitchLoc, int solidColorLoc, int tranformLoc)
+        // {
+        //     if (Enable == false)
+        //     {
+        //         return;
+        //     }
+        //     /*if (hasColor == false)
+        //     {
+        //         GL.Uniform4(colorLocation, 1, 0, 0, 1);
+        //     }*/
+        //     GL.Uniform1(colorSwitchLoc, 0);
+        //     GL.Uniform4(solidColorLoc, new Vector4(1f,1f,0f,1f));
+        //
+        //     GL.BindVertexArray(VaoHandle);
+        //     GL.DrawArrays(PrimitiveType.Triangles, 0, VertexCount);
+        // }
         public virtual void Forward()
         {
+            RotationAngle += 1;
+            if (RotationAngle >= 360)
+            {
+                RotationAngle = 0;
+            }
         }
+        // public abstract void Forward();
+
+        //public abstract Matrix4 GetTransformMatrix();
         public virtual Matrix4 GetTransformMatrix()
         {
             return Matrix4.Identity;
         }
 
-        public virtual MyMesh Build()
-        {
-            return this;
-        }
+        public abstract MyMesh Build();
+
+        // public virtual MyMesh Build()
+        // {
+        //     return this;
+        // }
     }
     
     
