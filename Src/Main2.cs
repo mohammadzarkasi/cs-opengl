@@ -82,28 +82,28 @@ private void Unload()
     {
         // Console.WriteLine("render frame");
         // GL.LoadIdentity();
-        GL.Clear(ClearBufferMask.ColorBufferBit| ClearBufferMask.DepthBufferBit);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
         _shader.Use();
         int projLocation = GL.GetUniformLocation(_shader.Handle, "projection_matrix");
         GL.UniformMatrix4(projLocation, false, ref _projectionMatrix);
-        
+
         int viewLocation = GL.GetUniformLocation(_shader.Handle, "view_matrix");
         GL.UniformMatrix4(viewLocation, false, ref _viewMatrix);
-        
+
         int transformLoc = GL.GetUniformLocation(_shader.Handle, "transform_matrix");
-        
+
 
         // Dapatkan lokasi Uniforms (sebaiknya dilakukan sekali saat inisialisasi)
         int solidColorLoc = GL.GetUniformLocation(_shader.Handle, "uSolidColor");
         int colorSwitchLoc = GL.GetUniformLocation(_shader.Handle, "useUniformColor");
-        
+
 
         foreach (var mesh in _meshes)
         {
-            var tranformMatrix = mesh.GetTransformMatrix();
-            GL.UniformMatrix4(transformLoc, false, ref tranformMatrix);
-            mesh.Draw(colorSwitchLoc, solidColorLoc);
+            // var tranformMatrix = mesh.GetTransformMatrix();
+            // GL.UniformMatrix4(transformLoc, false, ref tranformMatrix);
+            mesh.Draw(colorSwitchLoc, solidColorLoc, transformLoc);
         }
 
         _game.SwapBuffers();
@@ -115,15 +115,16 @@ private void Unload()
         GL.ClearColor(0.5f, 0.5f, 0.5f, 1f);
         GL.Enable(EnableCap.DepthTest);
         
-        _meshes.Add(new MyCube([
-            1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
-            15f, 1f, 0f,      0.0f, 1.0f, 0.0f,
-            15f, 15f, 0f,     0.0f, 0.0f, 1.0f,
-            
-            1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
-            1f, 15f, 0f,      0.0f, 1.0f, 0.0f,
-            15f, 15f, 0f,     0.0f, 0.0f, 1.0f,
-        ]));
+        // _meshes.Add(new MyCube([
+        //     1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
+        //     15f, 1f, 0f,      0.0f, 1.0f, 0.0f,
+        //     15f, 15f, 0f,     0.0f, 0.0f, 1.0f,
+        //     
+        //     1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
+        //     1f, 15f, 0f,      0.0f, 1.0f, 0.0f,
+        //     15f, 15f, 0f,     0.0f, 0.0f, 1.0f,
+        // ]));
+        _meshes.Add(new MySquare(-10,0,0, 20,10,0).Build());
         // _meshes.Add(new MyCube([
         //     1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
         //     1f, 15f, 0f,      0.0f, 1.0f, 0.0f,

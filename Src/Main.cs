@@ -89,7 +89,7 @@ namespace cs_gl.Src
         
             foreach (var mesh in _meshes)
             {
-                mesh.Draw(colorSwitchLoc, solidColorLoc);
+                mesh.Draw(colorSwitchLoc, solidColorLoc,0);
             }
 
             /*GL.Begin(PrimitiveType.Triangles);

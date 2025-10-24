@@ -70,7 +70,7 @@ namespace cs_gl.Src
             }
         }
 
-        public virtual void Draw(int colorSwitchLoc, int solidColorLoc)
+        public virtual void Draw(int colorSwitchLoc, int solidColorLoc, int tranformLoc)
         {
             if (Enable == false)
             {
@@ -92,6 +92,11 @@ namespace cs_gl.Src
         public virtual Matrix4 GetTransformMatrix()
         {
             return Matrix4.Identity;
+        }
+
+        public virtual MyMesh Build()
+        {
+            return this;
         }
     }
     
