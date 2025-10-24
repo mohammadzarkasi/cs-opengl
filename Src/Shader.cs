@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
+// ReSharper disable once CheckNamespace
 namespace cs_gl.Src
 {
     public class Shader
@@ -18,6 +19,8 @@ namespace cs_gl.Src
         // Shaders are written in GLSL, which is a language very similar to C in its semantics.
         // The GLSL source is compiled *at runtime*, so it can optimize itself for the graphics card it's currently being used on.
         // A commented example of GLSL can be found in shader.vert.
+        
+        // ReSharper disable once ConvertToPrimaryConstructor
         public Shader(string vertPath, string fragPath)
         {
             _vertPath = vertPath;

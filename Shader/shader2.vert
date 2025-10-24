@@ -31,7 +31,8 @@ layout(location = 1) in vec3 aColor; // Input Warna
 out vec3 vColor; // Output warna ke Fragment Shader
 
 uniform mat4 projection_matrix; // Kita hanya perlu satu matriks (Ortho/Projection) karena modelview di C# direset ke Identity
-// uniform mat4 view_matrix;
+uniform mat4 view_matrix;
+uniform mat4 transform_matrix;
 
 // Like C, we have an entrypoint function. In this case, it takes void and returns void, and must be named main.
 // You can do all sorts of calculations here to modify your vertices, but right now, we don't need to do any of that.
@@ -45,7 +46,7 @@ void main(void)
     // gl_Position = vec4(aPosition, 1.0);
     // gl_Position = projection_matrix * vec4(aPosition, 1.0);
 
-    gl_Position = projection_matrix * vec4(aPosition, 1.0);
-    
+    gl_Position = projection_matrix * view_matrix * transform_matrix * vec4(aPosition, 1.0);
+
     vColor = aColor; // Meneruskan warna vertex ke Fragment Shader
 }

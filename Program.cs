@@ -4,5 +4,5 @@ using cs_gl;
 using cs_gl.Src;
 
 Console.WriteLine("Hello, World!");
-var main = new Main();
+var main = new Main2();
 main.Mulai();

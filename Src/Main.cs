@@ -3,6 +3,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 
+// ReSharper disable once CheckNamespace
 namespace cs_gl.Src
 {
     public class Main
@@ -121,7 +122,7 @@ namespace cs_gl.Src
                 1f,1f,0f,       1.0f, 0.0f, 0.0f,
                 49f,1f,0f,      0.0f, 1.0f, 0.0f,
                 49f,49f,0f,     0.0f, 0.0f, 1.0f
-            ]));
+            ],true));
         
             _shader.Init();
             _shader.Use();

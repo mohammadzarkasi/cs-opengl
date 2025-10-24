@@ -12,6 +12,9 @@
       <None Update="Shader\shader.vert">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="Shader\shader2.vert">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="Shader\shader.frag">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
