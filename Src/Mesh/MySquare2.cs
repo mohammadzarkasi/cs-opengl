@@ -124,11 +124,11 @@ public class MySquare2 : MyMesh
         }
     }
 
-    public override void SetInitialTransform(Matrix4 transform)
+    public override void AddInitialTransform(Matrix4 transform)
     {
         foreach (var t in _triangles)
         {
-            t.SetInitialTransform(transform);
+            t.AddInitialTransform(transform);
         }
     }
 }

@@ -12,11 +12,11 @@ public class Main2
     private readonly List<MyMesh> _meshes;
     private readonly Shader _shader;
 
-    private Matrix4 _projectionMatrix;
-    private Matrix4 _viewMatrix;
-    private readonly Vector3 _cameraPosition = new Vector3(0f, 0f, 100f);
-    private readonly Vector3 _lookAt = new Vector3(0f, 0f, 0f);
-    private readonly Vector3 _upVector = new Vector3(0f, 1f, 0f);
+    // private Matrix4 _projectionMatrix;
+    // private Matrix4 _viewMatrix;
+    // private readonly Vector3 _cameraPosition = new Vector3(0f, 0f, 100f);
+    // private readonly Vector3 _lookAt = new Vector3(0f, 0f, 0f);
+    // private readonly Vector3 _upVector = new Vector3(0f, 1f, 0f);
 
     private Camera _camera;
 
@@ -43,8 +43,14 @@ public class Main2
         _game.UpdateFrame += UpdateFrame;
     }
 
+    private int counter = 0;
     private void UpdateFrame(FrameEventArgs e)
     {
+        // counter++;
+        // if (counter > 120)
+        // {
+        //     return;
+        // }
         foreach (var mesh in _meshes)
         {
             mesh.Forward();
@@ -77,9 +83,9 @@ public class Main2
 
         // _projectionMatrix = Matrix4.CreateOrthographicOffCenter(-100, 100, -100, 100, -1, 1);
 
-        _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45f),
-            (float)_game.Size.X / _game.Size.Y, 0.1f, 100f);
-        _viewMatrix = Matrix4.LookAt(_cameraPosition, _lookAt, _upVector);
+        // _projectionMatrix = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45f),
+        //     (float)_game.Size.X / _game.Size.Y, 0.1f, 100f);
+        // _viewMatrix = Matrix4.LookAt(_cameraPosition, _lookAt, _upVector);
     }
 
     private void RenderFrame(FrameEventArgs e)
@@ -129,8 +135,8 @@ public class Main2
         //     15f, 15f, 0f,     0.0f, 0.0f, 1.0f,
         // ]));
         // _meshes.Add(new MySquare(0,0,0, 20,10,0).Build());
-        _meshes.Add(new MyCube2(0, 0, 0, 40, 30, 25).Build());
-        _meshes.Add(new MyCube2(50, 20, 5, 40, 30, 25).Build());
+        _meshes.Add(new MyCube2(1, 0, 0, 30*3, 10*3, 5*3).Build());
+        // _meshes.Add(new MyCube2(50, 20, 5, 40, 30, 25).Build());
         // _meshes.Add(new MyCube([
         //     1f, 1f, 0f,       1.0f, 0.0f, 0.0f,
         //     1f, 15f, 0f,      0.0f, 1.0f, 0.0f,
@@ -153,6 +159,7 @@ public class Main2
             // We initialize the camera so that it is 3 units back from where the rectangle is.
         // We also give it the proper aspect ratio.
         _camera = new Camera(Vector3.UnitZ * 100, _game.Size.X / (float)_game.Size.Y);
+        // _camera = new Camera(new Vector3(0,20,200), _game.Size.X / (float)_game.Size.Y);
         
         // Console.WriteLine("matrix identity: " + Matrix4.Identity*Matrix4.CreateRotationY(MathHelper.DegreesToRadians(23)));
     }

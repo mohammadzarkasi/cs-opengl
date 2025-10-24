@@ -74,9 +74,9 @@ namespace cs_gl.Src
             }
         }
 
-        public virtual void SetInitialTransform(Matrix4 transform)
+        public virtual void AddInitialTransform(Matrix4 transform)
         {
-            initialTransform = transform;
+            initialTransform = initialTransform * transform;
             
         }
 

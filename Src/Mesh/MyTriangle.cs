@@ -41,7 +41,7 @@ public class MyTriangle:MyMesh
 
         // var transformMatrix = GetTransformMatrix();
         // var transformMatrix = initialTransform * GetDynamicTransformMatrix();
-        var transformMatrix =  GetDynamicTransformMatrix();
+        var transformMatrix = GetDynamicTransformMatrix();
      
         GL.UniformMatrix4(transformLoc, false, ref transformMatrix);
         
@@ -104,10 +104,11 @@ public class MyTriangle:MyMesh
     
     public override Matrix4 GetDynamicTransformMatrix()
     {
-        // var transform = Matrix4.Identity;
-        var transform = initialTransform;
+        var transform = Matrix4.Identity;
+        // var transform = initialTransform;
         transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
         transform = transform * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(RotationAngle));
+        transform = transform * initialTransform;
         // transform = transform * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(RotationAngle));
         return transform;
     }
